@@ -1,6 +1,9 @@
 //To get Ul 
 var tasklists=document.getElementById('task');
 
+//To make disable delete all button
+document.getElementById("delall").disabled = true;
+
 //add task function
 function addTask(event){
     event.preventDefault();
@@ -42,12 +45,26 @@ function addTask(event){
     //appending li to ul
     tasklists.appendChild(li);
 
-    console.log(li)
-
     //reseting input field
     document.getElementById('item').value='';
 
     //making undisable to delete all button
     document.getElementById("delall").disabled = false;
     }
+}
+
+//function to delete task
+function deleteTask(e){
+
+    //geting parent of delete button
+    var li=e.parentNode;
+
+    //removing li from ul
+    tasklists.removeChild(li);
+}
+
+//function to delete all
+function deleteAll(){
+    tasklists.innerHTML='';
+    document.getElementById("delall").disabled = true;
 }
