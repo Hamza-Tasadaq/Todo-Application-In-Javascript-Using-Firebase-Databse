@@ -1,70 +1,82 @@
-//To get Ul 
-var tasklists=document.getElementById('task');
+// Getting UL
+let taskList = document.getElementById("task");
 
-//To make disable delete all button
-document.getElementById("delall").disabled = true;
+// Function to add tasks
+function addTask(e) {
+  e.preventDefault();
 
-//add task function
-function addTask(event){
-    event.preventDefault();
+  // Getting task value from input field
+  var task = document.getElementById("item");
 
-    //checking for input field is empty or not
-    if(document.getElementById('item').value===''){
-        alert("Input Field is Empty!");
+  if (task.value === "") {
+    task.style.borderColor = "red";
+    task.style.color = "red";
+    task.value = "Input Field Is Empty";
+  } else {
+    if (task.value === "Input Field Is Empty") {
+    } else {
+      task.style.borderColor = "rgba(0,0,0,.125)";
+      task.style.color = "#495057";
+      // Generating a random Numbers
+      let key = (Math.random() * 121212).toFixed();
+
+      let tasks = {
+        key: key,
+        task: task.value,
+      };
+
+      //Adding Data to Firebase Database
+      firebase
+        .database()
+        .ref("task/" + key)
+        .set(tasks);
+
+      taskList.innerHTML = "";
+
+      //Calling function to Display Data
+      displayData();
+
+      //Reseting Input value
+      task.value = "";
+
+      //making undisable to delete all button
+      document.getElementById("delall").disabled = false;
     }
-    else{
-        //Create Element
-    var li=document.createElement('li');
-
-    //adding class to li
-    li.className='list-group-item';
-
-    var textNode=document.createTextNode(document.getElementById('item').value);
-
-    //appending textNode to li
-    li.appendChild(textNode);
-
-    //creating delete img
-    var image=document.createElement('img');
-
-    //adding class to delete img
-    image.className='rounded float-right del';
-
-    //adding image path to tag
-    image.src='images/delete.png';
-
-    //adding attribute to delete image
-    image.setAttribute('onclick','deleteTask(this)');
-
-    //appending image to li
-    li.appendChild(image);
-
-    //applying style to li
-    li.style.marginBottom='5px'
-
-    //appending li to ul
-    tasklists.appendChild(li);
-
-    //reseting input field
-    document.getElementById('item').value='';
-
-    //making undisable to delete all button
-    document.getElementById("delall").disabled = false;
-    }
+  }
 }
 
-//function to delete task
-function deleteTask(e){
+// Function to getting data from database and display on the screen
+function displayData() {
+  //Getting data from database
+  let taskToAdd = firebase.database().ref("task/");
 
-    //geting parent of delete button
-    var li=e.parentNode;
-
-    //removing li from ul
-    tasklists.removeChild(li);
+  //Displaying data on the screen
+  taskToAdd.on("child_added", function (data) {
+    let tasksValue = data.val();
+    taskList.innerHTML += `
+   <li class="list-group-item" style="margin-bottom: 5px;">${tasksValue.task}<img class="rounded float-right del" src="images/delete.png" onclick="deleteTask(${tasksValue.key})"></li>
+    `;
+  });
 }
 
-//function to delete all
-function deleteAll(){
-    tasklists.innerHTML='';
-    document.getElementById("delall").disabled = true;
+// Function To delete Task
+function deleteTask(key) {
+  //Getting task to delete
+  let taskToDelete = firebase.database().ref("task/" + key);
+  taskToDelete.remove();
+  //Calling Function To display Updated Data
+  taskList.innerHTML = "";
+  displayData();
+}
+
+// Function to delete all data
+function deleteAll() {
+  firebase.database().ref("task").remove();
+
+  //Calling Function To display Updated Data
+  taskList.innerHTML = "";
+  displayData();
+
+  // Making Delete-All Button to disable
+  document.getElementById("delall").disabled = true;
 }

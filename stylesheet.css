@@ -1,39 +1,39 @@
 /*****Header Styling******/
-.navbar{
-    background-color: #272727;
+.navbar {
+  background-color: #272727;
 }
-.text{
-    color: #ff652f;
-    font-family: Arial, Helvetica, sans-serif;
+.text {
+  color: #ff652f;
+  font-family: Arial, Helvetica, sans-serif;
 }
 /****Input field styling****/
-.form-control{
-    width: 80% !important;
-    margin-right: 5px;
-    margin-bottom: 0;
+.form-control {
+  width: 80% !important;
+  margin-right: 5px;
+  margin-bottom: 0;
 }
-.btn{
-    width: 19% !important;
-    background-color: #ff652f;
+.btn {
+  width: 19% !important;
+  background-color: #ff652f;
 }
-.card>.list-group{
-    border: none;
+.card > .list-group {
+  border: none;
 }
-.btn-lg{
-    border: none;
-    width: 100% !important;
+.btn-lg {
+  border: none;
+  width: 100% !important;
 }
 /****Input field styling******** 
 for********smaller Screen******/
 
-@media (max-width: 770px){
-    .form-control{
-        width: 100% !important;
-        margin-right: 0em;
-        margin-bottom: 5px;
-    }
-    .btn{
-        width: 100% !important;
-        background-color: #ff652f;
-    }
+@media (max-width: 770px) {
+  .form-control {
+    width: 100% !important;
+    margin-right: 0em;
+    margin-bottom: 5px;
+  }
+  .btn {
+    width: 100% !important;
+    background-color: #ff652f;
+  }
 }
